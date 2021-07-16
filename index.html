@@ -8,8 +8,6 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <link rel="stylesheet" href="css/leaflet.css">
         <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
-        <link rel="stylesheet" href="css/leaflet-search.css">
-        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
         <style>
         html, body, #map {
             width: 100%;
@@ -32,10 +30,10 @@
         <script src="js/rbush.min.js"></script>
         <script src="js/labelgun.min.js"></script>
         <script src="js/labels.js"></script>
-        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
-        <script src="js/leaflet-search.js"></script>
         <script src="data/VaccinationCoverageRatefor16yearolds_0.js"></script>
         <script src="data/ZIPcodes_1.js"></script>
+        <script src="data/DetroitBoundaries_2.js"></script>
+        <script src="data/CityParks_3.js"></script>
         <script>
         var map = L.map('map', {
             zoomControl:true, maxZoom:28, minZoom:1
@@ -517,6 +515,27 @@
                         <td colspan="2">' + (feature.properties['Detroit_CensusTracts_Ages16+_7.13.2021_Population of Ages16+'] !== null ? autolinker.link(feature.properties['Detroit_CensusTracts_Ages16+_7.13.2021_Population of Ages16+'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
+                        <td colspan="2">' + (feature.properties['Merged_SVI'] !== null ? autolinker.link(feature.properties['Merged_SVI'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Merged_Zip Code(s)'] !== null ? autolinker.link(feature.properties['Merged_Zip Code(s)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Merged_% Received 1 or More Dose (Ages: 16+)'] !== null ? autolinker.link(feature.properties['Merged_% Received 1 or More Dose (Ages: 16+)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Merged_% Fully Vaccinated (Ages: 16+)'] !== null ? autolinker.link(feature.properties['Merged_% Fully Vaccinated (Ages: 16+)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Merged_Population of Ages16+'] !== null ? autolinker.link(feature.properties['Merged_Population of Ages16+'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Merged_layer'] !== null ? autolinker.link(feature.properties['Merged_layer'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Merged_path'] !== null ? autolinker.link(feature.properties['Merged_path'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
                         <td colspan="2">' + (feature.properties['Pct_1dose'] !== null ? autolinker.link(feature.properties['Pct_1dose'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
@@ -534,12 +553,15 @@
                     <tr>\
                         <td colspan="2">' + (feature.properties['Pct_0713'] !== null ? autolinker.link(feature.properties['Pct_0713'].toLocaleString()) : '') + '</td>\
                     </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Pct_0713reg'] !== null ? autolinker.link(feature.properties['Pct_0713reg'].toLocaleString()) : '') + '</td>\
+                    </tr>\
                 </table>';
             layer.bindPopup(popupContent, {maxHeight: 400});
         }
 
         function style_VaccinationCoverageRatefor16yearolds_0_0(feature) {
-            if (feature.properties['Pct_0713'] >= 17.000000 && feature.properties['Pct_0713'] <= 25.000000 ) {
+            if (feature.properties['Pct_0713reg'] >= 17.000000 && feature.properties['Pct_0713reg'] <= 25.000000 ) {
                 return {
                 pane: 'pane_VaccinationCoverageRatefor16yearolds_0',
                 opacity: 1,
@@ -554,7 +576,7 @@
                 interactive: true,
             }
             }
-            if (feature.properties['Pct_0713'] >= 25.000000 && feature.properties['Pct_0713'] <= 50.000000 ) {
+            if (feature.properties['Pct_0713reg'] >= 25.000000 && feature.properties['Pct_0713reg'] <= 50.000000 ) {
                 return {
                 pane: 'pane_VaccinationCoverageRatefor16yearolds_0',
                 opacity: 1,
@@ -569,7 +591,7 @@
                 interactive: true,
             }
             }
-            if (feature.properties['Pct_0713'] >= 50.000000 && feature.properties['Pct_0713'] <= 75.000000 ) {
+            if (feature.properties['Pct_0713reg'] >= 50.000000 && feature.properties['Pct_0713reg'] <= 75.000000 ) {
                 return {
                 pane: 'pane_VaccinationCoverageRatefor16yearolds_0',
                 opacity: 1,
@@ -584,7 +606,7 @@
                 interactive: true,
             }
             }
-            if (feature.properties['Pct_0713'] >= 75.000000 && feature.properties['Pct_0713'] <= 100.000000 ) {
+            if (feature.properties['Pct_0713reg'] >= 75.000000 && feature.properties['Pct_0713reg'] <= 100.000000 ) {
                 return {
                 pane: 'pane_VaccinationCoverageRatefor16yearolds_0',
                 opacity: 1,
@@ -802,18 +824,105 @@
         });
         bounds_group.addLayer(layer_ZIPcodes_1);
         map.addLayer(layer_ZIPcodes_1);
-        var osmGeocoder = new L.Control.Geocoder({
-            collapsed: true,
-            position: 'topleft',
-            text: 'Search',
-            title: 'Testing'
-        }).addTo(map);
-        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
-        .className += ' fa fa-search';
-        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
-        .title += 'Search for a place';
+        function pop_DetroitBoundaries_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PLACE'] !== null ? autolinker.link(feature.properties['PLACE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['NAME'] !== null ? autolinker.link(feature.properties['NAME'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['LINK'] !== null ? autolinker.link(feature.properties['LINK'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SQKM'] !== null ? autolinker.link(feature.properties['SQKM'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SQMILES'] !== null ? autolinker.link(feature.properties['SQMILES'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ACRES'] !== null ? autolinker.link(feature.properties['ACRES'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['VER'] !== null ? autolinker.link(feature.properties['VER'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_DetroitBoundaries_2_0() {
+            return {
+                pane: 'pane_DetroitBoundaries_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '10,5,1,5,1,5',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 3.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(225,89,137,0.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_DetroitBoundaries_2');
+        map.getPane('pane_DetroitBoundaries_2').style.zIndex = 402;
+        map.getPane('pane_DetroitBoundaries_2').style['mix-blend-mode'] = 'normal';
+        var layer_DetroitBoundaries_2 = new L.geoJson(json_DetroitBoundaries_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_DetroitBoundaries_2',
+            layerName: 'layer_DetroitBoundaries_2',
+            pane: 'pane_DetroitBoundaries_2',
+            onEachFeature: pop_DetroitBoundaries_2,
+            style: style_DetroitBoundaries_2_0,
+        });
+        bounds_group.addLayer(layer_DetroitBoundaries_2);
+        map.addLayer(layer_DetroitBoundaries_2);
+        function pop_CityParks_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Name'] !== null ? autolinker.link(feature.properties['Name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Descriptio'] !== null ? autolinker.link(feature.properties['Descriptio'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_CityParks_3_0() {
+            return {
+                pane: 'pane_CityParks_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(168,168,168,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_CityParks_3');
+        map.getPane('pane_CityParks_3').style.zIndex = 403;
+        map.getPane('pane_CityParks_3').style['mix-blend-mode'] = 'normal';
+        var layer_CityParks_3 = new L.geoJson(json_CityParks_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_CityParks_3',
+            layerName: 'layer_CityParks_3',
+            pane: 'pane_CityParks_3',
+            onEachFeature: pop_CityParks_3,
+            style: style_CityParks_3_0,
+        });
+        bounds_group.addLayer(layer_CityParks_3);
+        map.addLayer(layer_CityParks_3);
         var baseMaps = {};
-        L.control.layers(baseMaps,{'<img src="legend/ZIPcodes_1.png" /> ZIP codes': layer_ZIPcodes_1,'Vaccination Coverage Rate for 16+ year olds<br /><table><tr><td style="text-align: center;"><img src="legend/VaccinationCoverageRatefor16yearolds_0_17250.png" /></td><td>17 - 25</td></tr><tr><td style="text-align: center;"><img src="legend/VaccinationCoverageRatefor16yearolds_0_25501.png" /></td><td>25 - 50</td></tr><tr><td style="text-align: center;"><img src="legend/VaccinationCoverageRatefor16yearolds_0_50752.png" /></td><td>50 - 75</td></tr><tr><td style="text-align: center;"><img src="legend/VaccinationCoverageRatefor16yearolds_0_751003.png" /></td><td>75 - 100</td></tr></table>': layer_VaccinationCoverageRatefor16yearolds_0,},{collapsed:false}).addTo(map);
+        L.control.layers(baseMaps,{'<img src="legend/CityParks_3.png" /> City Parks': layer_CityParks_3,'<img src="legend/DetroitBoundaries_2.png" /> Detroit Boundaries': layer_DetroitBoundaries_2,'<img src="legend/ZIPcodes_1.png" /> ZIP codes': layer_ZIPcodes_1,'Vaccination Coverage Rate for 16+ year olds<br /><table><tr><td style="text-align: center;"><img src="legend/VaccinationCoverageRatefor16yearolds_0_17250.png" /></td><td>17 - 25</td></tr><tr><td style="text-align: center;"><img src="legend/VaccinationCoverageRatefor16yearolds_0_25501.png" /></td><td>25 - 50</td></tr><tr><td style="text-align: center;"><img src="legend/VaccinationCoverageRatefor16yearolds_0_50752.png" /></td><td>50 - 75</td></tr><tr><td style="text-align: center;"><img src="legend/VaccinationCoverageRatefor16yearolds_0_751003.png" /></td><td>75 - 100</td></tr></table>': layer_VaccinationCoverageRatefor16yearolds_0,},{collapsed:false}).addTo(map);
         setBounds();
         var i = 0;
         layer_ZIPcodes_1.eachLayer(function(layer) {
@@ -828,13 +937,6 @@
               addLabel(layer, i);
               i++;
         });
-        map.addControl(new L.Control.Search({
-            layer: layer_VaccinationCoverageRatefor16yearolds_0,
-            initial: false,
-            hideMarkerOnCollapse: true,
-            propertyName: 'Detroit_CensusTracts_Ages16+_7.13.2021_% Received 1 or More Dose (Ages'}));
-        document.getElementsByClassName('search-button')[0].className +=
-         ' fa fa-binoculars';
         resetLabels([layer_VaccinationCoverageRatefor16yearolds_0,layer_ZIPcodes_1]);
         map.on("zoomend", function(){
             resetLabels([layer_VaccinationCoverageRatefor16yearolds_0,layer_ZIPcodes_1]);
